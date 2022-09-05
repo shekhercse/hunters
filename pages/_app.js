@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { useEffect, useState } from 'react'
 
+
 function MyApp ({ Component, pageProps }) {
 
   const [cart, setCart] = useState({})
@@ -11,24 +12,30 @@ function MyApp ({ Component, pageProps }) {
   useEffect(() => {
     try {
       if (localStorage.getItems("cart")) {
-        setCart(JSON.parse(localStorage.getItems("cart")))
+        setCart(JSON.parse.stringify(localStorage.getItems("cart")))
+        saveCart(JSON.parse.stringify(localStorage.getItems("cart")))
+      
       }
     } catch (error) {
       console.error(error);
       localStorage.clear()
     }
 
-  }
-
-    , [])
+  } , [])
 
 
+   
+    // save cart to local storage
   const saveCart = (myCart) => {
-    localStorage.setItem('cart', JSON.stringify(myCart))
+    localStorage.setItem("cart", JSON.stringify(myCart))
+
+
+    // calculate subtotal
     let subt = 0;
     let keys = Object.keys(myCart)
+    
     for (let i = 0; i<keys.length; i++) {
-      console.log(keys)
+      
       subt += myCart[keys[i]].price * myCart[keys[i]].qty;
     }
     setSubTotal(subt);
@@ -37,7 +44,7 @@ function MyApp ({ Component, pageProps }) {
   }
 
 
-
+  // Add items to the cart
   const addToCart = (itemCode, qty, price, name, size, variant) => {
     let newCart = cart;
     if (itemCode in cart) {
@@ -46,16 +53,18 @@ function MyApp ({ Component, pageProps }) {
     else {
       newCart[itemCode] =  { qty: 1, price, name, size, variant }
     }
+
+    // cart not clear due to refresh
     setCart(newCart)
     saveCart(newCart)
   }
-
+    // clear the cart
   const clearCart = () => {
     setCart({})
     saveCart({})
   }
 
-
+    // remove from cart
   const removeFromCart = (itemCode, qty, price, name, size, variant) => {
     let newCart = cart;
     if (itemCode in cart) {
