@@ -16,7 +16,7 @@ import { BsFillBagCheckFill } from 'react-icons/bs';
 const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
 
 
-  console.log(cart, addToCart, removeFromCart, clearCart, subTotal)
+  
   const toggleCart = () => {
     if (ref.current.classList.contains('translate-x-full')) {
       ref.current.classList.remove('translate-x-full')
@@ -52,15 +52,11 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
         <Link href={'/digitalservices'}><a className="mr-5 hover:text-gray-900">Digital Services</a></Link>
         <Link href={'/blogs'}><a className="mr-5 hover:text-gray-900">Blogs</a></Link>
         <Link href={'/electronics'}><a className="mr-5 hover:text-gray-900">Contact Us</a></Link>
-        <Link href={'/login'}><MdAccountCircle className="text-2xl m-2" /></Link>
+        <Link href={'/login'}><a><MdAccountCircle className="text-2xl m-2" /></a></Link>
         <div onClick={toggleCart}><AiOutlineShoppingCart className="text-2xl m-2" />
         </div>
       </nav>
-      {/* <div className="cursor-pointer cart absolute right-0 top-4 mx-5 flex">
-        <MdAccountCircle className="text-2xl" />
-        <div onClick={toggleCart}><AiOutlineShoppingCart className="text-2xl" />
-        </div>
-      </div> */}
+      
       <div ref={ref} className={`w-100 h-[100vh] sidecart absolute top-1 right-0 bg-pink-100 p-10 transform transition-transform ${Object.keys(cart).length !== 0 ? 'translate-x-0' : 'translate-x-full'} `}>
         <h2 className="font-bold text-xl">
           Shopping Cart

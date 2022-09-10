@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema({
     confirmPassword: {type: String,required:true},
     
 
-  }); {timestamps: true};
+  }, {timestamps: true});
 
+  mongoose.models={}
 
   export default mongoose.model("Product", UserSchema);

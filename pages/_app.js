@@ -10,6 +10,10 @@ function MyApp ({ Component, pageProps }) {
   const [subTotal, setSubTotal] = useState(0)
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      const cart = localStorage.getItem('mycart')
+    }else{
     try {
       if (localStorage.getItems("cart")) {
         setCart(JSON.parse.stringify(localStorage.getItems("cart")))
@@ -21,13 +25,13 @@ function MyApp ({ Component, pageProps }) {
       localStorage.clear()
     }
 
-  } , [])
+  }} , [])
 
 
    
     // save cart to local storage
-  const saveCart = (myCart) => {
-    localStorage.setItem("cart", JSON.stringify(myCart))
+  const saveCart =  (myCart) => {
+  localStorage.setItem("cart", JSON.stringify(myCart))
 
 
     // calculate subtotal
