@@ -1,5 +1,9 @@
 import Head from "next/head";
-
+<Head>
+  <title>Hunters</title>
+  <meta name="description" content="Ecommerce website" />
+  <link rel="icon" href="/favicon.ico" />
+</Head>
 
 export default function Home () {
   return (

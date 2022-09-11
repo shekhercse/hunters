@@ -32,15 +32,17 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
   const ref = useRef()
 
   return (
+    <>
 
     <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center shadow sticky top-0 bg-white z-10">
-      <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-        <Link href='/'><Image
+    <Link href='/'><a><Image
           src={logo}
           alt="Picture of the author"
           width={50}
           height={50}
-        /></Link>
+        /></a></Link>
+      <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+       
 
         <span className="ml-3 text-xl">Ecommerce</span>
       </a>
@@ -88,7 +90,7 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
 
       </div>
     </div>
-
+    </>
   );
 };
 

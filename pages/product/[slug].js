@@ -1,36 +1,42 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import mongoose from 'mongoose'
+import Product from '../../models/Product'
 
-const Post = ({addToCart}) => {
+
+
+
+const Post = ({ addToCart , product, variants}) => {
+  console.log(product, variants)
 
 
   // Below all are functions starting form const some are built in and some of custom defined functions
   const router = useRouter()
   const { slug } = router.query
-  const[pin, setPin] = useState()
-  const [service, setService]= useState()
+  const [pin, setPin] = useState()
+  const [service, setService] = useState()
 
 
-  const checkServiceability=async() => {
+  const checkServiceability = async () => {
 
     // declare veriable below
     let pins = await fetch('http://localhost:3000/api/pincode')
-    let pinJson =await pins.json()
+    let pinJson = await pins.json()
 
 
     // conditions to the pin code
-    if(pinJson.includes(parseInt(pin))){
+    if (pinJson.includes(parseInt(pin))) {
       setService(true)
     }
-    else{
+    else {
       setService(false)
     }
-    }
-    const onChangePin = (e) => {
-      setPin(e.target.value)
-    }
+  }
+  const onChangePin = (e) => {
+    setPin(e.target.value)
+  }
 
-  
+
 
   return <>
     <section className="text-gray-600 body-font overflow-hidden">
@@ -84,6 +90,10 @@ const Post = ({addToCart}) => {
                 <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
                 <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
                 <button className="border-2 border-gray-300 ml-1 bg-pink-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                <button className="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                <button className="border-2 border-gray-300 ml-1 bg-yellow-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>
+                <button className="border-2 border-gray-300 ml-1 bg-green-500 rounded-full w-6 h-6 focus:outline-none"></button>
               </div>
               <div className="flex ml-6 items-center">
                 <span className="mr-3">Size</span>
@@ -93,6 +103,8 @@ const Post = ({addToCart}) => {
                     <option>M</option>
                     <option>L</option>
                     <option>XL</option>
+                    <option>XXL</option>
+                    <option>XXXL</option>
                   </select>
                   <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                     <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4" viewBox="0 0 24 24">
@@ -105,7 +117,7 @@ const Post = ({addToCart}) => {
             <div className="flex">
               <span className="title-font font-medium text-2xl text-gray-900">₹499</span>
               <button className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Buy Now</button>
-              <button onClick={()=>{addToCart(slug, 1, 499, 'hunter but the products online', 'XL', "red" )}} className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Add to Cart</button>
+              <button onClick={() => { addToCart(slug, 1, 499, 'hunter but the products online', 'XL', "red") }} className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Add to Cart</button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                   <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
@@ -113,16 +125,16 @@ const Post = ({addToCart}) => {
               </button>
             </div>
             <div className="pin mt-6 flex space-x-2 text-sm">
-              <input  onChange={onChangePin} className="px-2 border-2 border-gray-400 rounded-md" placeholder= "Enter Your PinCode "type="text"/>
-              
+              <input onChange={onChangePin} className="px-2 border-2 border-gray-400 rounded-md" placeholder="Enter Your PinCode " type="text" />
+
               <button onClick={checkServiceability} className="text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Check
 
               </button>
-              {(!service && service !=null) && <div className='text-red-700 text-sm mt-3'>
+              {(!service && service != null) && <div className='text-red-700 text-sm mt-3'>
                 Soory Service not available to this pincode
               </div>}
-              {(service && service !=null) && <div className='text-red-700 text-sm mt-3'>
-               Yeh! Service is available to this pincode
+              {(service && service != null) && <div className='text-red-700 text-sm mt-3'>
+                Yeh! Service is available to this pincode
               </div>}
             </div>
           </div>
@@ -130,6 +142,33 @@ const Post = ({addToCart}) => {
       </div>
     </section>
   </>
+}
+
+export async function getServerSideProps (context) {
+
+  if (!mongoose.connections[0].readyState) {
+    await mongoose.connect(process.env.MONGO_URI)
+  }
+  let product = await Product.findOne({ slug: context.query.slug })
+  let variants = await Product.find({ title: product.title })
+  let colorSizeSlug = {}
+  for (let item of variants) {
+    if (Object.keys(colorSizeSlug).includes(item.color)) {
+      colorSizeSlug[item.color][item.size] = { slug: item.slug }
+    }
+    else {
+      colorSizeSlug[item.color] = {}
+      colorSizeSlug[item.color][item.size] = { slug: item.slug }
+    }
+
+
+  }
+
+
+  return {
+    props: { variants: JSON.parse(JSON.stringify(colorSizeSlug)), product: JSON.parse(JSON.stringify(product)) },// will be passed to the page component as props
+
+  }
 }
 
 export default Post
