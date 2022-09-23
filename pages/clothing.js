@@ -17,8 +17,9 @@ const clothing = ({ products }) => {
 
               return <Link passHref={true} key={products[item]._id} href={`/product/${products[item].slug}`}><div className="  lg:w-1/4 md:w-1/2 p-4 w-full shadow-lg m-5 cursor-pointer">
                 <a className="block relative h-48 rounded overflow-hidden">
-                  <Image src={"/products[item].img"} className="m-auto h-[30vh] block" alt="Picture of the author" width={100} height={100}
-                  />
+                  {/* <Image src={"/products[item].img"} className="m-auto h-[30vh] block" alt="Picture of the author" width={100} height={100}
+                  /> */}
+                   <img alt="product image" className="m-auto h-[30vh] block" src={products[item].img} />
                 </a>
                 <div className="mt-4 text-center md:text-left">
                   <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">{products[item].category}</h3>
