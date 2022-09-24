@@ -53,7 +53,7 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
         <Link href={'/computing'}><a className="mr-5 hover:text-gray-900">Computing</a></Link>
         <Link href={'/digitalservices'}><a className="mr-5 hover:text-gray-900">Digital Services</a></Link>
         <Link href={'/blogs'}><a className="mr-5 hover:text-gray-900">Blogs</a></Link>
-        <Link href={'/electronics'}><a className="mr-5 hover:text-gray-900">Contact Us</a></Link>
+        <Link href={'/contactus'}><a className="mr-5 hover:text-gray-900">Contact Us</a></Link>
         <Link href={'/login'}><a><MdAccountCircle className="text-2xl m-2" /></a></Link>
         <div onClick={toggleCart}><AiOutlineShoppingCart className="text-2xl m-2" />
         </div>
