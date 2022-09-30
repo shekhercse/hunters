@@ -1,13 +1,93 @@
-import React from 'react'
-import Image from 'next/image'
-import logo from '../public/logo.png'
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from 'react'
 import Link from 'next/link'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
+
+
+
+
+
 const login = () => {
+
+  const router = useRouter()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+
+
+  const handleChange = (e) => {
+    if (e.target.name == 'email') {
+      setEmail(e.target.value)
+    }
+    else if (e.target.name == 'password') {
+      setPassword(e.target.value)
+    }
+
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const data = { email, password }
+    let res = await fetch('http://localhost:3000/api/login', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    let response = await res.json()
+    console.log(response)
+
+    setEmail('')
+    setPassword('')
+    if (response.success) {
+      toast.success('Logged In Sucessfully!', {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setTimeout(() => {
+        router.push('http://localhost:3000')
+      }, 1000);
+
+    }
+    else {
+      toast.error(response.error, {
+        position: "top-left",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+  }
   return (
     <div>
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
 
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+
         <div className="w-full max-w-md space-y-8">
           <div className='justify-center'>
             {/* <Link href='/'><Image
@@ -16,22 +96,22 @@ const login = () => {
               width={350}
               height={350}
             /></Link> */}
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Enter Your Details Here</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or
-              <Link href={'/signup'}><a  className="font-medium text-pink-600 hover:text-pink-500">  Sign Up</a></Link>
+              <Link href={'/signup'}><a className="font-medium text-pink-600 hover:text-pink-500">  Sign Up</a></Link>
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6" method="POST">
             <input type="hidden" name="remember" value="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
-                <label htmlFor="email-address" className="sr-only">Email address</label>
-                <input id="email-address" name="email" type="email" autoComplete="email" required className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-pink-500 focus:outline-none focus:ring-pink-500 sm:text-sm" placeholder="Email address" />
+                <label htmlFor="email" className="sr-only">Email address</label>
+                <input value={email} onChange={handleChange} id="email" name="email" type="email" autoComplete="email" required className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-pink-500 focus:outline-none focus:ring-pink-500 sm:text-sm" placeholder="Email address" />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">Password</label>
-                <input id="password" name="password" type="password" autoComplete="current-password" required className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-pink-500 focus:outline-none focus:ring-pink-500 sm:text-sm" placeholder="Password" />
+                <label value={password} htmlFor="password" className="sr-only">Password</label>
+                <input onChange={handleChange} id="password" name="password" type="password" autoComplete="current-password" required className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-pink-500 focus:outline-none focus:ring-pink-500 sm:text-sm" placeholder="Password" />
               </div>
             </div>
 
@@ -43,7 +123,7 @@ const login = () => {
 
               <div className="text-sm">
                 <Link href='/forgot'>
-                <a  className="font-medium text-pink-600 hover:text-pink-500">Forgot your password?</a>
+                  <a className="font-medium text-pink-600 hover:text-pink-500">Forgot your password?</a>
                 </Link>
               </div>
             </div>
@@ -58,8 +138,8 @@ const login = () => {
                 </span>
                 Sign in
               </button>
-             
-              
+
+
             </div>
           </form>
         </div>
