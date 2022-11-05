@@ -41,7 +41,7 @@ function MyApp ({ Component, pageProps }) {
     // JWT token authentication  save in localStorage
     const token =localStorage.getItem('token')
     if (token) {
-      setUser({ value: token })
+      setUser({ value: " token" })
       setKey(Math.random())
     }
   }, [router.query])
@@ -50,10 +50,10 @@ function MyApp ({ Component, pageProps }) {
   // Logout form the account in the webiste
 
 
-  const logout =() => {
-    localStorage.removeItem("token ") 
+  const logout = () => {
+    localStorage.removeItem('token ')
     setUser({ value:null})
-    setKey(Math.random())
+    setKey(Math.random()) 
     
     
   }

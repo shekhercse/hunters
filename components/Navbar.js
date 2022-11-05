@@ -61,17 +61,19 @@ const Navbar = ({ logout, user, cart, addToCart, removeFromCart, clearCart, subT
 
 
           <a onMouseOver={() => { setDropdown(true) }} onMouseLeave={() => { setDropdown(false) }} >
-            {dropdown && <div onMouseOver={() => { setDropdown(true) }} onMouseLeave={() => { setDropdown(false) }} className="bg-pink-500 top-14 absolute right-16 rounded-md px-5 w-50">
-              <ul>
-             <Link href={'/myaccount'} ><a><li className="py-1 hover:text-pink-700 ">My Account </li></a></Link>
-             {/* <Link href={'/orders'} > <a><li className="py-1  hover:text-pink-700">Orders </li> </a></Link> */}
-             </ul>
-              <button onClick={logout} className="py-1  hover:text-pink-700">Logout</button>
+            {dropdown && 
+               <ul onMouseOver={() => { setDropdown(true) }} onMouseLeave={() => { setDropdown(false) }} className="bg-pink-500 top-14 absolute right-16 rounded-md px-5 w-50">
+                 
+                    <Link href={'/myaccount'} ><li className="py-1 cursor-pointer hover:text-pink-700 ">My Account </li></Link>
+                    {/* <Link href={'/orders'} > <a><li className="py-1  hover:text-pink-700">Orders </li> </a></Link> */}
              
-             </div>}
+                    <li onClick={logout} className="py-1  hover:text-pink-700 cursor-pointer">Logout</li>
+                   
+                </ul>}
 
-          {user.value && <MdAccountCircle className="text-2xl m-2" />}</a>
-          {!user.value && <Link href={'/login'}><a><button className="bg-pink-600 rounded-md p-1 text-white">Login</button></a></Link>}
+             {user.value && <MdAccountCircle className="text-2xl m-2" />}
+          </a>
+          {!user.value && <Link href={'/login'}><a className="bg-pink-600 rounded-md p-1 text-white">Login</a></Link>}
           <div onClick={toggleCart}><AiOutlineShoppingCart className="text-2xl m-2" />
           </div>
         </nav>
@@ -91,7 +93,7 @@ const Navbar = ({ logout, user, cart, addToCart, removeFromCart, clearCart, subT
 
               return <li key={k}>
 
-                <div className="item flex my-5">
+                  <div className="item flex my-5">
                   <div className="w-2/3 font-semibold">{cart[k].name}({cart[k].size}/{cart[k].variant}) </div>
                   <div className="flex font-semibold items-center jsutify-center w-1/3 text-lg"><AiFillMinusCircle onClick={() => { removeFromCart(k, 1, cart[k].price, cart[k].size, cart[k].variant) }} className="cursor-pointer text-pink-500" /><span className="mx-2 text-sm">{cart[k].qty}</span> <AiFillPlusCircle onClick={() => { addToCart(k, 1, cart[k].price, cart[k].name, cart[k].size, cart[k].variant) }} className="cursor-pointer text-pink-500" /></div>
                 </div>
