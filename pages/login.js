@@ -30,7 +30,7 @@ const login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = { email, password }
-    let res = await fetch('http://localhost:3000/api/login', {
+    let res = await fetch('http://hunterstore.tk/api/login', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ const login = () => {
       });
 
       setTimeout(() => {
-        router.push('http://localhost:3000')
+        router.push('http://www.hunterstore.tk')
       }, 1000);
 
     }
