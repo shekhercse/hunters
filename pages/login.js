@@ -30,7 +30,7 @@ const login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = { email, password }
-    let res = await fetch('http://hunterstore.tk/api/login', {
+    let res = await fetch('https://hunterstore.tk/api/login', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json'
