@@ -11,6 +11,7 @@ export default function Home () {
       <Head>
         <title>Hunters</title>
         <meta name="description" content="Ecommerce website" />
+        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
