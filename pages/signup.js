@@ -30,7 +30,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = { name, email, password, confirmPassword }
-    let res = await fetch('https://data.mongodb-api.com/app/data-tlbpb/endpoint/data/v1/api/signup', {
+    let res = await fetch('http://localhost:3000/api/signup', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json'

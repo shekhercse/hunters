@@ -67,7 +67,7 @@ const Post = ({ buyNow, addToCart, product, variants }) => {
 
   const refreshVariant = (newsize, newcolor) => {
     console.log('v is ', variants, newsize, newcolor)
-    let url = `https://hunterstore.tk/product/${variants[newcolor][newsize]['slug']}`
+    let url = `http://localhost:3000/product/${variants[newcolor][newsize]['slug']}`
     window.location = url;
   }
 
