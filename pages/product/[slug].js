@@ -67,7 +67,7 @@ const Post = ({ buyNow, addToCart, product, variants }) => {
 
   const refreshVariant = (newsize, newcolor) => {
     console.log('v is ', variants, newsize, newcolor)
-    let url = `https://data.mongodb-api.com/app/data-tlbpb/endpoint/data/v1/product/${variants[newcolor][newsize]['slug']}`
+    let url = `https://hunterstore.tk/product/${variants[newcolor][newsize]['slug']}`
     window.location = url;
   }
 
